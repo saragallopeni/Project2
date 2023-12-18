@@ -8,7 +8,9 @@ const updateTaskDescription = (req, res) => {
     const sql = 'UPDATE tasks SET description = ? WHERE task_id = ?';
     const values = [description, taskId];
 
-    databaza.query(sql, values, (result) => {
+    databaza.query(sql, values, (error, result) => {
+        if (error) return res.status(500).json({ error: 'Internal error' });
+
         if (result.affectedRows === 0) { 
             return res.status(404).json({ error: 'Detyra nuk u gjet' });
         }
